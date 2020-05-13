@@ -10,6 +10,7 @@
       <h3>Sort by:</h3>
       <sortTodos />
       <Todos />
+      <NotificationList />
     </div>
   </div>
 </template>
@@ -20,6 +21,7 @@ import AddTodo from './components/AddTodo.vue'
 import preloader from './components/preloader.vue'
 import filterTodo from './components/filterTodo.vue'
 import sortTodos from './components/sortTodos.vue'
+import NotificationList from './components/NotificationList.vue'
 
 export default {
   name: 'App',
@@ -28,7 +30,8 @@ export default {
     AddTodo,
     preloader,
     filterTodo,
-    sortTodos
+    sortTodos,
+    NotificationList
   }
 }
 </script>

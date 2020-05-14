@@ -68,9 +68,24 @@ export default {
     text-align: center;
     position: relative;
     cursor: pointer;
+    /* transition: box-shadow 0.3s ease-in-out; */
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  .todo::after {
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.888); */
+    opacity: 0;
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
   .todo:hover {
-    box-shadow: 2px 2px 9px grey;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.888);
+    -webkit-transform: scale(1.09, 1.09);
+    transform: scale(1.09, 1.09);
+    /* z-index: 99999; */
+  }
+  .todo:hover::after {
+    opacity: 1;
   }
   i {
     position: absolute;

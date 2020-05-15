@@ -15,6 +15,6 @@ export default {
 
 <style>
 .alert{
-    box-shadow: 2px 2px 9px grey;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.888);
 }
 </style>

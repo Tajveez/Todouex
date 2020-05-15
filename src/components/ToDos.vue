@@ -20,12 +20,16 @@
         </div>
         <div 
           v-for="todo in allTodos" 
-          @dblclick="toggleTodo(todo)" 
           :key="todo.key" 
           class="todo"
           :class="{isComplete:todo.completed}">
           {{ todo.title }}
-          <i @click="deleteTodo(todo.id)" class="far fa-trash-alt"></i>
+          <div class="actions">
+
+            <i v-if="todo.completed" @click="toggleTodo(todo)"  class="far fa-check-square"></i>
+            <i v-else @click="toggleTodo(todo)"  class="far fa-square"></i>
+            <i @click="deleteTodo(todo.id)" class="far fa-trash-alt"></i>
+          </div>
         </div>
       </div>
   </div>
@@ -61,13 +65,13 @@ export default {
     grid-gap: 1rem;
   }
   .todo{
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     background: #41b883;
     padding: 1.3rem;
     border-radius: 5px;
     text-align: center;
     position: relative;
-    cursor: pointer;
+    /* cursor: pointer; */
     /* transition: box-shadow 0.3s ease-in-out; */
     -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -80,19 +84,23 @@ export default {
   }
   .todo:hover {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.888);
-    -webkit-transform: scale(1.09, 1.09);
-    transform: scale(1.09, 1.09);
+    -webkit-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
     /* z-index: 99999; */
   }
   .todo:hover::after {
     opacity: 1;
   }
-  i {
+  .actions {
     position: absolute;
     bottom: 10px;
     right: 10px;
     color: #fff;
     cursor: pointer;
+  }
+  i {
+    padding: 2px;
+
   }
   .isComplete {
     background: #5e6a65;

@@ -7,7 +7,7 @@
           Making on page preloader and in button preloader
         </div>
         <div 
-          class="todo">
+          class="todo isComplete">
           Making Alertboxes, success messages
         </div>
         <div  
@@ -22,8 +22,10 @@
           v-for="todo in allTodos" 
           :key="todo.key" 
           class="todo"
-          :class="{isComplete:todo.completed}">
-          {{ todo.title }}
+          :class="{isComplete:todo.completed}"
+          @dblclick="editTodo(todo)">
+          <textarea v-if="todo.edit" v-model="todo.title" @keyup.enter="updateTodoData(todo)"></textarea>
+          <span v-else>{{ todo.title }}</span>
           <div class="actions">
 
             <i v-if="todo.completed" @click="toggleTodo(todo)"  class="far fa-check-square"></i>
@@ -39,7 +41,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: "Todos",
   methods: {
-    ...mapActions(['getTodos', 'deleteTodo', 'completeTodo']),
+    ...mapActions(['getTodos', 'deleteTodo', 'updateTodoData']),
     toggleTodo(todo){
       const updTodo = {
         id: todo.id,
@@ -47,7 +49,10 @@ export default {
         completed: !todo.completed
       }
       
-      this.completeTodo(updTodo)
+      this.updateTodoData(updTodo)
+    },
+    editTodo(todo){
+      todo.edit = true
     }
   },
   computed: {
@@ -59,6 +64,20 @@ export default {
 }
 </script>
 <style scoped>
+  textarea {
+    overflow: auto;
+    resize: vertical;
+    background: transparent;
+    /* color: transparent; */
+    resize: none;
+    text-align: center;
+    border: 0 none;
+    width: 100%;
+    /* font-size: 5em; */
+    outline: none;
+    height: 100%;
+    /* position: absolute; */
+  }
   .todos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -93,8 +112,8 @@ export default {
   }
   .actions {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 1px;
+    right: 5px;
     color: #fff;
     cursor: pointer;
   }

@@ -13,6 +13,7 @@ const getters = {
     getNotifications: (state) => state.notifications
 };
 const actions = {
+
     async getTodos({ commit }){
 
         state.loadingStatus = true
@@ -20,8 +21,13 @@ const actions = {
             'https://jsonplaceholder.typicode.com/todos'
             );
         state.loadingStatus = false
-        console.log(response.data);
-        commit('setTodos', response.data);
+        let todoData = response.data
+        let result = todoData.map(obj => ({
+             ...obj,
+             edit: false 
+        }))
+        console.log(result);
+        commit('setTodos', result);
     },
     async addTodo({ commit, dispatch }, title) {
         state.buttonLoader = true
@@ -58,7 +64,7 @@ const actions = {
         state.loadingStatus = false
         commit('setTodos', response.data);
     },
-    async completeTodo({ commit, dispatch }, todo){
+    async updateTodoData({ commit, dispatch }, todo){
         state.loadingStatus = true
         const response = await axios.put(
             `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
@@ -66,10 +72,14 @@ const actions = {
         );
         state.loadingStatus = false
         dispatch('addNotification', {
-            message: 'Todo Status modified Successfully!',
+            message: 'Todo Status Updated Successfully!',
             type: 'info'
         })
-        commit('updateTodos', response.data);
+        let result = {
+            ...response.data,
+            edit: false
+        }
+        commit('updateTodos', result);
     },
     async sortTodos({ commit }, sortOrder){
 
@@ -90,8 +100,12 @@ const actions = {
             return response.status(500).send(err);
         }
         state.loadingStatus = false
-        console.log(response.data);
-        commit('setTodos', response.data);
+        let todoData = response.data
+        let result = todoData.map(obj => ({
+             ...obj,
+             edit: false
+        }))
+        commit('setTodos', result);
     },
     addNotification({commit}, notification){
         commit('addNewNotification', notification)

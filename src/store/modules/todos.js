@@ -12,8 +12,25 @@ const getters = {
     loadingStatus: (state) => state.loadingStatus,
     getNotifications: (state) => state.notifications
 };
-const actions = {
 
+function updateTodosData(todoData) {
+    let result = ''
+    if(todoData.length > 1){
+        result = todoData.map(obj => ({
+            ...obj,
+            edit: false 
+        }))
+    } else {
+        result = {
+            ...todoData,
+            edit: false 
+        }
+    }
+
+   return result
+}
+
+const actions = {
     async getTodos({ commit }){
 
         state.loadingStatus = true
@@ -21,11 +38,8 @@ const actions = {
             'https://jsonplaceholder.typicode.com/todos'
             );
         state.loadingStatus = false
-        let todoData = response.data
-        let result = todoData.map(obj => ({
-             ...obj,
-             edit: false 
-        }))
+        let result = updateTodosData(response.data)
+
         console.log(result);
         commit('setTodos', result);
     },
@@ -62,7 +76,8 @@ const actions = {
             `https://jsonplaceholder.typicode.com/todos?_limit=${limit}`
         );
         state.loadingStatus = false
-        commit('setTodos', response.data);
+        let result = updateTodosData(response.data)
+        commit('setTodos', result);
     },
     async updateTodoData({ commit, dispatch }, todo){
         state.loadingStatus = true
@@ -75,10 +90,7 @@ const actions = {
             message: 'Todo Status Updated Successfully!',
             type: 'info'
         })
-        let result = {
-            ...response.data,
-            edit: false
-        }
+        let result = updateTodosData(response.data)
         commit('updateTodos', result);
     },
     async sortTodos({ commit }, sortOrder){
@@ -100,11 +112,7 @@ const actions = {
             return response.status(500).send(err);
         }
         state.loadingStatus = false
-        let todoData = response.data
-        let result = todoData.map(obj => ({
-             ...obj,
-             edit: false
-        }))
+        let result = updateTodosData(response.data)
         commit('setTodos', result);
     },
     addNotification({commit}, notification){

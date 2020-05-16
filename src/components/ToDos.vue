@@ -2,7 +2,7 @@
   <div>
     <h3>Todos</h3>
       <div class="todos">
-        <div 
+        <!-- <div 
           class="todo isComplete">
           Making on page preloader and in button preloader
         </div>
@@ -15,9 +15,9 @@
           sorting with tags
         </div>
         <div 
-          class="todo">
+          class="todo isComplete">
           editing todo text
-        </div>
+        </div> -->
         <div 
           v-for="todo in allTodos" 
           :key="todo.key" 

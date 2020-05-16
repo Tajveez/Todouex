@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>
-            Add Todo
+            Add Todo:
         </h3>
         <div class="add">
             <form @submit.prevent="onSubmit">
@@ -15,6 +15,7 @@
                 </button>
             </form>
         </div>
+        <hr>
     </div>
 </template>
 <script>

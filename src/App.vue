@@ -7,7 +7,6 @@
       <preloader />
       <AddTodo />
       <filterTodo />
-      <h3>Sort by:</h3>
       <sortTodos />
       <Todos />
       <NotificationList />

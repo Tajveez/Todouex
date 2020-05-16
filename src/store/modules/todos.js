@@ -2,13 +2,15 @@ import axios from 'axios';
 
 const state = {
     todos: [],
+    notifications: [],
     buttonLoader: false,
     loadingStatus: false
 };
 const getters = {
     allTodos: (state) => state.todos,
     buttonLoader: (state) => state.buttonLoader,
-    loadingStatus: (state) => state.loadingStatus
+    loadingStatus: (state) => state.loadingStatus,
+    getNotifications: (state) => state.notifications
 };
 const actions = {
     async getTodos({ commit }){
@@ -21,7 +23,7 @@ const actions = {
         console.log(response.data);
         commit('setTodos', response.data);
     },
-    async addTodo({ commit }, title) {
+    async addTodo({ commit, dispatch }, title) {
         state.buttonLoader = true
         const response = await axios.post(
             'https://jsonplaceholder.typicode.com/todos',
@@ -30,12 +32,20 @@ const actions = {
                 completed: false
             });
         state.buttonLoader = false
+        dispatch('addNotification', {
+            message: 'New Todo Added Successfully!',
+            type: 'success'
+        })
         commit('newTodo', response.data);
     },
-    async deleteTodo({ commit }, id) {
+    async deleteTodo({ commit, dispatch }, id) {
         state.loadingStatus = true
         await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
         state.loadingStatus = false
+        dispatch('addNotification', {
+            message: 'Todo Deleted Successfully!',
+            type: 'warning'
+        })
         commit('removeTodo', id)
     },
     async filterTodos({ commit }, e){
@@ -48,13 +58,17 @@ const actions = {
         state.loadingStatus = false
         commit('setTodos', response.data);
     },
-    async completeTodo({ commit }, todo){
+    async completeTodo({ commit, dispatch }, todo){
         state.loadingStatus = true
         const response = await axios.put(
             `https://jsonplaceholder.typicode.com/todos/${todo.id}`,
             todo
         );
         state.loadingStatus = false
+        dispatch('addNotification', {
+            message: 'Todo Status modified Successfully!',
+            type: 'info'
+        })
         commit('updateTodos', response.data);
     },
     async sortTodos({ commit }, sortOrder){
@@ -79,6 +93,12 @@ const actions = {
         console.log(response.data);
         commit('setTodos', response.data);
     },
+    addNotification({commit}, notification){
+        commit('addNewNotification', notification)
+    },
+    removeNotification({commit}){
+        commit('removeNotification')
+    },
 };
 const mutations = {
     setTodos: (state, todos) => (state.todos = todos),
@@ -89,6 +109,15 @@ const mutations = {
         if(index !== -1){
             state.todos.splice(index,1,updTodo)
         }
+    },
+    addNewNotification: (state, notification) => {
+        state.notifications.unshift({
+            ...notification,
+            id: (Math.random().toString(32) + Date.now().toString(32)).substr(2)
+        })
+    },
+    removeNotification: (state) => {
+        state.notifications.pop()
     }
 };
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        Filter Todos:
+        <h3> Filter Todos: </h3>
         <select @change="filterTodos($event)">
             <option></option>
             <option value="5">5</option>
@@ -10,6 +10,7 @@
             <option value="100">100</option>
             <option value="200">200</option>
         </select>
+    <hr>
     </div>
 </template>
 <script>
@@ -24,7 +25,7 @@ export default {
 </script>
 <style scoped>
 select {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   padding: 6px;
   border: #41b883 1px solid;
 }

@@ -1,4 +1,6 @@
 <template>
+    <div>
+    <h3>Sort Todos: </h3>
     <div class="sorterbox">
         <div class="sorters"
              @click="selectSort('completed')"
@@ -10,6 +12,8 @@
              :class="{selectedSort: selectedSort === 'uncompleted'}">
             #uncompleted
         </div>
+    </div>
+    <hr>
     </div>
 </template>
 <script>

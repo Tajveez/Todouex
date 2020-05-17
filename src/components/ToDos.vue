@@ -24,7 +24,7 @@
           class="todo"
           :class="{isComplete:todo.completed}"
           @dblclick="editTodo(todo)">
-          <textarea v-if="todo.edit" v-model="todo.title" @keyup.enter="updateTodoData(todo)"></textarea>
+          <textarea v-if="todo.edit" v-model="todo.title" @keydown.enter.prevent="updateTodoData(todo)"></textarea>
           <span v-else>{{ todo.title }}</span>
           <div class="actions">
 
